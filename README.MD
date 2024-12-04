@@ -1,6 +1,6 @@
 
-## Servicio Web Básico para Gestión de Datos
-# HECHO POR AI ESTA DESCRIPCION, PERDONEN SI ALGO NO ESTA BIEN
+# Servicio Web Básico para Gestión de Datos
+## HECHO POR AI ESTA DESCRIPCION, PERDONEN SI ALGO NO ESTA BIEN
 ### Descripción
 Este proyecto es una aplicación web simple que permite a los usuarios agregar, ver, buscar y borrar datos desde una interfaz web. Es ideal para gestionar listas de tareas, nombres u otros tipos de datos simples.
 
@@ -23,11 +23,7 @@ Este proyecto es una aplicación web simple que permite a los usuarios agregar, 
    ```bash
    cd servicio-web-basico
    ```
-3. Instala las dependencias de Python:
-   ```bash
-   pip install -r requirements.txt
-   ```
-4. Ejecuta la aplicación:
+3. Ejecuta la aplicación:
    ```bash
    python app.py
    ```
