@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listas de tareas</title>
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        async function obtenerDatos() {
+            const response = await fetch('/datos');
+            const datos = await response.json();
+            document.getElementById('tabla-datos').innerHTML = datos.map((dato, index) => `
+                <tr class="border-b text-slate-200">
+                    <td class="px-4 py-2 text-center">${index + 1}</td>
+                    <td class="px-4 py-2">${dato}</td>
+                    <td class="px-4 py-2 text-center">
+                        <button class="bg-red-500 text-white px-2 py-1 rounded" onclick="borrarDato('${dato}')">Borrar</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        async function handleKeyPress(event) {
+            var key = event.keyCode || event.which;
+            if (key === 13) {
+                document.getElementById("pulsar").click();
+                return false; // Evita que se envíe el formulario si no es necesario
+            }
+        }
+        async function handleKeyPress1(event) {
+            var key = event.keyCode || event.which;
+            if (key === 13) {
+                document.getElementById("pulsar1").click();
+                return false; // Evita que se envíe el formulario si no es necesario
+            }
+        }
+        async function buscarDatos() {
+            const consulta = document.getElementById('consulta').value;
+            if (consulta === "") {
+                obtenerDatos();
+                return;
+            }
+            const response = await fetch(`/datos/buscar?q=${consulta}`);
+            const resultados = await response.json();
+            document.getElementById('tabla-datos').innerHTML = resultados.map((dato, index) => `
+                    <tr class="border-b text-slate-200">
+                    <td class="px-4 py-2 text-center">${index + 1}</td>
+                    <td class="px-4 py-2">${dato}</td>
+                    <td class="px-4 py-2 text-center">
+                        <button class="bg-red-500 text-white px-2 py-1 rounded" onclick="borrarDato('${dato}')">Borrar</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        async function agregarDato() {
+            const nuevoDato = document.getElementById('nuevo-dato').value;
+            const response = await fetch('/datos', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ dato: nuevoDato })
+            });
+
+            if (response.ok) {
+                document.getElementById('nuevo-dato').value = '';
+                obtenerDatos();
+            } else {
+                alert('Error al agregar el dato');
+            }
+        }
+        async function borrarDato(dato) {
+            const response = await fetch(`/datos/${dato}`, { method: 'DELETE' });
+
+            if (response.ok) {
+                obtenerDatos();
+            } else {
+                alert('Error al borrar el dato');
+            }
+        }
+
+        window.onload = obtenerDatos;
+    </script>
+</head>
+
+<body class="bg-gray-100 font-sans leading-normal tracking-normal dark:bg-slate-600">
+    <div class="container mx-auto px-4">
+        <h1 class="text-2xl font-bold text-center my-4">Listas de tareas
+        </h1>
+        <div class="mb-4 flex justify-center" onkeypress="return handleKeyPress(event)">
+            <input type="text" id="nuevo-dato" placeholder="Escribe un dato"
+                class="border rounded px-4 py-2 mr-2 dark:bg-slate-200">
+            <button id="pulsar" onclick="agregarDato()"
+                class="bg-blue-500 text-white px-4 py-2 rounded">Agregar</button>
+        </div>
+        <div class="mb-4 flex justify-center" onkeypress="return handleKeyPress1(event)">
+            <input type="text" id="consulta" placeholder="Buscar datos" class="border rounded px-4 py-2 mr-2">
+            <button id="pulsar1" onclick="buscarDatos()"
+                class="bg-green-500 text-white px-4 py-2 rounded">Buscar</button>
+        </div>
+        <table class="table-auto w-full bg-white rounded shadow dark:bg-slate-500">
+            <thead>
+                <tr class="bg-gray-200 dark:bg-gray-700">
+                    <th class="px-4 py-2 dark:text-slate-200 ">Lista</th>
+                    <th class="px-4 py-2 dark:text-slate-200">Tarea</th>
+                    <th class="px-4 py-2 dark:text-slate-200">Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="tabla-datos" class="text-center">
+                <!-- Datos cargados dinámicamente -->
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>
