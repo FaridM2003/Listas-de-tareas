@@ -25,7 +25,7 @@ Este proyecto es una aplicación web simple que permite a los usuarios agregar, 
    ```
 3. Ejecuta la aplicación:
    ```bash
-   python app.py
+   python main.py
    ```
 
 ### Uso
