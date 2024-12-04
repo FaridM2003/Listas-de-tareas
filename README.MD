@@ -38,9 +38,10 @@ Este proyecto es una aplicación web simple que permite a los usuarios agregar, 
 ```
 servicio-web-basico/
 ├── app.py               # Archivo principal de la aplicación Flask
-├── index.html           # Archivo HTML con la interfaz de usuario
-└── requirements.txt     # Dependencias de Python
-```
+├── datos_guardados      # Archivo Guardado
+├──templates 
+   └── index.html           # Archivo HTML con la interfaz de usuario
+   ```
 
 ### Requisitos
 - Python 3.x
